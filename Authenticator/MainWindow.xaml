@@ -1,0 +1,372 @@
+﻿<Window x:Class="Authenticator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Authenticator"
+        mc:Ignorable="d"
+        Title="Authenticator" Closing="Window_Closing" Background="Transparent" Height="450" Width="350" MinHeight="450" MinWidth="350" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" LocationChanged="Window_LocationChanged" SizeChanged="Window_SizeChanged" Icon="/Logo.png">
+    <Border x:Name="mainborder" MouseDown="Label_MouseDown" CornerRadius="{Binding Source={x:Static local:Settings.CornerRadius}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" BorderThickness="0">
+        <Grid>
+            <Grid x:Name="maingrid" Visibility="Hidden">
+                <Label Content="Authenticator" MouseDown="Label_MouseDown" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" FontSize="30" Height="50" FontWeight="Black" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                <Button Width="40" Height="40" ToolTip="Close" Click="Close_Click" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Top" >
+                    <Path Stroke="DarkGray" StrokeThickness="1" Width="20" Height="20">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry StartPoint="0,0" EndPoint="20,20" />
+                                <LineGeometry StartPoint="0,20" EndPoint="20,0" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ScrollViewer Margin="0,50,0,80">
+                    <StackPanel x:Name="codelist">
+                        
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel x:Name="masterpassword_area" Visibility="Collapsed" Margin="30,100,30,80">
+                    <Label FontSize="15" Margin="0,0,0,20" HorizontalAlignment="Center" Content="Enter masterpassword:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                    <PasswordBox x:Name="masterpassword_input" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Height="30" FontSize="15" Margin="0,0,0,20"/>
+                    <Button Click="mp_continue_Click" BorderThickness="0" Background="#FF448AFF" Height="40" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                        <Label Foreground="White" FontSize="13" Content="Continue" />
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+                <Button Click="settings_Click" BorderThickness="0" ToolTip="Settings" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,10,30,10">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Fill" Width="30" Height="30" Data="m 9.6742882,13.486425 c -0.068828,-0.0065 -0.2080487,-0.02279 -0.309379,-0.03629 l -0.1842369,-0.02452 v -0.407962 c 0,-0.407963 0,-0.407963 -0.036407,-0.480478 -0.1543225,-0.307389 -0.40866,-0.527332 -0.7013275,-0.606496 -0.1978405,-0.05351 -0.4450719,-0.0689 -0.7062908,-0.04396 -0.1161284,0.01109 -0.1161284,0.01109 -0.4033567,0.297984 -0.1579754,0.157794 -0.2927385,0.286897 -0.2994737,0.286897 -0.017509,0 -0.1872155,-0.138833 -0.3461277,-0.283161 -0.2203521,-0.20013 -0.6494726,-0.686347 -0.6494726,-0.73589 0,-0.0092 0.1248978,-0.141534 0.2775509,-0.293998 0.277551,-0.277206 0.277551,-0.277206 0.3125679,-0.423833 0.101398,-0.424587 0.072985,-0.72115 -0.092838,-0.9690006 C 6.4274333,9.6042004 6.2411958,9.465364 6.0080905,9.3725478 5.9014892,9.330102 5.9014892,9.330102 5.5130587,9.330102 H 5.1246282 L 5.0982347,9.0625187 c -0.045259,-0.4588475 -0.035046,-1.032707 0.023625,-1.3274909 0.014525,-0.072977 0.014525,-0.072977 0.4171709,-0.072977 0.4605381,0 0.4262356,0.00827 0.6938513,-0.1671112 C 6.4870455,7.3283814 6.6553338,7.1189081 6.7128349,6.897527 6.744183,6.7768357 6.734905,6.5172199 6.6939577,6.3693107 6.6252123,6.1209904 6.6177349,6.1098026 6.3222519,5.8131663 6.1736798,5.6640142 6.0521208,5.5366467 6.0521208,5.5301273 c 0,-0.00652 0.05162,-0.078126 0.1147131,-0.1591246 C 6.3224563,5.1712125 6.6323548,4.8546648 6.8515726,4.6715732 L 7.0322667,4.5206569 7.3243315,4.8116223 c 0.2920651,0.2909654 0.2920651,0.2909654 0.3963501,0.313743 0.058334,0.012746 0.2025629,0.026144 0.3273239,0.030419 0.1964858,0.00673 0.2367323,0.00418 0.3380616,-0.021438 C 8.6635084,5.0642087 8.8307237,4.9274108 9.06948,4.5752492 9.1806723,4.4112428 9.1806723,4.4112428 9.1806723,3.9947277 V 3.5782126 l 0.1216652,-0.021907 c 0.3979783,-0.071663 0.8027045,-0.078401 1.3174675,-0.021931 0.243668,0.026731 0.215523,-0.031433 0.215523,0.4453841 0,0.4678035 -0.0079,0.4259237 0.115745,0.6102988 0.195972,0.2921278 0.453969,0.4741009 0.75988,0.5359664 0.156287,0.031606 0.402361,0.021202 0.573206,-0.024238 0.120931,-0.032165 0.120931,-0.032165 0.42939,-0.3310235 0.16965,-0.1643725 0.312328,-0.2974233 0.317062,-0.2956684 0.0048,0.00176 0.07093,0.048392 0.14709,0.10364 0.356742,0.2587649 0.635607,0.5318627 0.819593,0.8026397 0.05127,0.075445 0.05127,0.075445 -0.267145,0.3961623 -0.318406,0.3207179 -0.318406,0.3207179 -0.344765,0.4944732 -0.01797,0.1185047 -0.0261,0.2444757 -0.02556,0.3961623 7.46e-4,0.205751 0.0037,0.2307249 0.03926,0.3334769 0.09139,0.2639247 0.265889,0.4475611 0.575948,0.606079 0.106257,0.054325 0.106257,0.054325 0.567467,0.054325 0.461207,0 0.461207,0 0.469082,0.031364 0.06118,0.2437038 0.07847,0.9882158 0.03202,1.3795291 -0.01362,0.1146781 -0.0279,0.2194532 -0.03175,0.2328322 -0.0065,0.022515 -0.04015,0.024327 -0.452204,0.024327 -0.445202,0 -0.445202,0 -0.585747,0.072171 -0.322404,0.1655578 -0.504548,0.3555745 -0.589336,0.6148103 -0.05269,0.161092 -0.05232,0.392211 0.0011,0.682211 0.03839,0.208506 0.03839,0.208506 0.350619,0.521968 0.312231,0.313462 0.312231,0.313462 0.260504,0.382262 -0.185082,0.246169 -0.450434,0.511911 -0.776319,0.777464 L 13.040177,12.527905 12.726854,12.2149 c -0.313323,-0.313005 -0.313323,-0.313005 -0.46627,-0.328689 -0.278202,-0.02852 -0.564746,5.51e-4 -0.782987,0.07946 -0.216052,0.07812 -0.434071,0.267966 -0.55881,0.486608 -0.06257,0.109674 -0.06257,0.109674 -0.06661,0.543939 -0.004,0.434263 -0.004,0.434263 -0.03476,0.441574 -0.197631,0.04703 -0.8602739,0.07522 -1.1430984,0.04865 z M 10.457644,10.31149 c 0.335325,-0.07359 0.631064,-0.228225 0.871399,-0.4556528 0.262371,-0.2482802 0.425948,-0.5324084 0.518265,-0.9002078 0.03293,-0.1312039 0.03689,-0.1733653 0.03726,-0.3970012 4.2e-4,-0.2659589 -0.0077,-0.3245387 -0.07628,-0.5490669 C 11.726761,7.7426487 11.581282,7.504507 11.370658,7.2931876 10.821221,6.7419367 9.9952174,6.6077871 9.2989725,6.9567297 9.1176746,7.0475922 8.9878771,7.1428775 8.8324967,7.2991731 8.6309092,7.5019478 8.5041099,7.7019398 8.4105946,7.9646118 8.281817,8.3263326 8.2817903,8.7764702 8.4105264,9.1387442 c 0.226091,0.6362327 0.7722332,1.0866998 1.4445206,1.1914648 0.1215347,0.01894 0.482018,0.0077 0.602595,-0.01872 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Click="add_service_Click" BorderThickness="0" ToolTip="Add Service" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Bottom" Margin="10">
+                    <Path Stroke="White" StrokeThickness="7" Width="30" Height="30">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry StartPoint="0,15" EndPoint="30,15" />
+                                <LineGeometry StartPoint="15,0" EndPoint="15,30" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Click="info_show_Click" ToolTip="Info" BorderThickness="0" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="30,10,30,10">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="m 11.678004,31.340357 q 0.9366,0 1.585015,0.662826 0.648413,0.648414 0.648413,1.570606 0,0.92219 -0.662822,1.570605 -0.648415,0.648414 -1.570606,0.648414 -0.92219,0 -1.570605,-0.648414 -0.648415,-0.648415 -0.648415,-1.570605 0,-0.922192 0.648415,-1.570606 0.648415,-0.662826 1.570605,-0.662826 z m 2.017292,6.527378 v 10.677236 q 0,1.426513 0.331411,1.829969 0.331414,0.38905 1.296832,0.446689 v 0.518728 H 8.04688 v -0.518728 q 0.8933719,-0.0288 1.3256486,-0.518734 0.2881844,-0.331411 0.2881844,-1.757924 v -7.867434 q 0,-1.426515 -0.3314122,-1.815563 Q 8.9978888,38.458513 8.04688,38.40088 v -0.533145 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+            <Grid x:Name="addmethodgrid" Visibility="Hidden">
+                <Button Click="amg_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <StackPanel Margin="30,130,30,30">
+                    <Button Click="fromscreen_Click" BorderThickness="0" Background="#FF448AFF" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,0,30">
+                        <Label Foreground="White" FontSize="13" Content="Scan QR-Code from screen..." />
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Click="fromWebcam_Click" BorderThickness="0" Background="#FF448AFF" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,0,30">
+                        <Label Foreground="White" FontSize="13" Content="Scan QR-Code using webcam..." />
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="fromscreengrid" Visibility="Hidden">
+                <Border BorderThickness="0" Height="130" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}"  CornerRadius="{Binding Source={x:Static local:Settings.CornerRadius}, Mode=OneWay}"/>
+                <Border BorderThickness="0" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}"  CornerRadius="{Binding Source={x:Static local:Settings.CornerRadius}, Mode=OneWay}"/>
+                <Border BorderThickness="0" Width="30" VerticalAlignment="Stretch" HorizontalAlignment="Left" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}"  CornerRadius="{Binding Source={x:Static local:Settings.CornerRadius}, Mode=OneWay}"/>
+                <Border BorderThickness="0" Width="30" VerticalAlignment="Stretch" HorizontalAlignment="Right" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}"  CornerRadius="{Binding Source={x:Static local:Settings.CornerRadius}, Mode=OneWay}"/>
+                <Button Click="fromscr_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Border MouseDown="Label_MouseDown" BorderThickness="1" ToolTip="Drag..." BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" CornerRadius="50" Width="60" Height="60" Margin="30" VerticalAlignment="Top">
+                    <Path MouseDown="Label_MouseDown" Fill="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" ToolTip="Drag..." StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="m 40.264361,119.57108 v -1.29609 l 10,0.0332 10,0.0332 v 1.22977 1.22977 l -10,0.0332 -10,0.0332 z m 0,-4.91909 v -1.2961 l 10,0.0332 10,0.0332 v 1.22978 1.22977 l -10,0.0332 -10,0.0332 z" />
+                </Border>
+                <Border x:Name="screen_capture_frame" BorderThickness="3" Margin="30,130,30,30" CornerRadius="0" Background="Transparent" BorderBrush="#FF448AFF" />
+                <Border x:Name="scfDestMarker" Width="1" Height="1" Margin="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            </Grid>
+            <Grid x:Name="codeinfogrid" Visibility="Hidden">
+                <Button Click="codeinfo_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Border Width="80" Height="80" BorderThickness="0" Margin="20" VerticalAlignment="Top" CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush x:Name="edit_logo" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+                <Button Click="export_Click" BorderThickness="0" ToolTip="Export" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="m 31.880357,53.290382 c -1.036691,-0.292462 -2.002871,-1.301707 -2.27258,-2.373877 -0.263757,-1.048504 -0.30361,-6.94965 -0.04964,-7.350408 0.121506,-0.191734 0.621024,-0.252454 1.715573,-0.20854 1.544156,0.06195 1.544156,0.06195 1.601539,3.348239 l 0.05739,3.286284 11.401042,-0.05391 11.401042,-0.05391 0.05386,-11.417572 0.05386,-11.417573 H 44.387526 32.932613 l -0.05738,3.284507 -0.05737,3.284507 -1.608455,0.06079 c -1.590318,0.06011 -1.610033,0.05451 -1.748303,-0.496948 -0.07691,-0.30676 -0.07395,-2.070215 0.0066,-3.91879 0.158517,-3.638147 0.310027,-4.165685 1.438133,-5.00741 0.442609,-0.33025 1.034987,-0.472946 2.395853,-0.577127 3.171026,-0.242759 22.556056,-0.196099 23.464927,0.05649 1.053135,0.292671 2.090605,1.331165 2.382991,2.385339 0.316986,1.142872 0.316986,23.653833 0,24.796706 -0.292386,1.054172 -1.329856,2.092664 -2.382991,2.385338 -1.066123,0.29628 -23.832374,0.285188 -24.886258,-0.01213 z m 10.461717,-7.531354 c -0.597652,-0.605765 -1.086641,-1.194241 -1.086641,-1.307722 0,-0.113483 0.843756,-1.047004 1.875015,-2.074497 1.031258,-1.02749 1.875015,-1.939362 1.875015,-2.02638 0,-0.08702 -3.492216,-0.182817 -7.760479,-0.212888 l -7.760479,-0.05467 v -1.564053 -1.56405 l 7.760479,-0.05467 c 4.268263,-0.03007 7.760479,-0.125871 7.760479,-0.212888 0,-0.08702 -0.843757,-0.998889 -1.875015,-2.026381 -1.031259,-1.02749 -1.875015,-1.967171 -1.875015,-2.088177 0,-0.121006 0.514439,-0.728561 1.1432,-1.350123 l 1.143199,-1.130111 4.065177,4.049763 c 2.235845,2.22737 4.065174,4.196859 4.065174,4.37664 0,0.280583 -7.870401,8.341607 -8.144347,8.341607 -0.05452,0 -0.588109,-0.495627 -1.185762,-1.101395 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ScrollViewer Margin="30,130,0,130" Padding="0,0,30,0">
+                    <StackPanel>
+                        <Label Content="Service:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                        <TextBox x:Name="CompanyEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                    <Setter Property="Padding" Value="4,1,4,1" />
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                        <Label Content="Website:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                        <TextBox x:Name="UrlEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                    <Setter Property="Padding" Value="4,1,4,1" />
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                        <StackPanel x:Name="advSettingsBlock" Visibility="Collapsed">
+                            <Label Content="Your username/email:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                            <TextBox x:Name="UsernameEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                        <Setter Property="Padding" Value="4,1,4,1" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Label Content="Digit count:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                            <TextBox x:Name="DigitEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" PreviewTextInput="NumericOnly" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                        <Setter Property="Padding" Value="4,1,4,1" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Label Content="Generation interval:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                            <TextBox x:Name="IntervalEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" PreviewTextInput="NumericOnly" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                        <Setter Property="Padding" Value="4,1,4,1" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Label Content="Algorithm:" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" FontSize="15" />
+                            <TextBox x:Name="SHAEdit" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" TextChanged="SHAEdit_TextChanged" FontSize="15" Height="25" Margin="0,0,0,20" VerticalAlignment="Top" MaxLines="1">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                        <Setter Property="Padding" Value="4,1,4,1" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button Click="SaveEdit_Click" BorderThickness="0" ToolTip="Save" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="30,30,120,30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="m 34.295896,83.253819 c -1.703969,-1.70542 -3.098125,-3.170125 -3.098125,-3.2549 0,-0.08478 0.33822,-0.487272 0.751601,-0.894438 l 0.751602,-0.740299 2.356373,2.356373 2.356373,2.356372 6.018311,-6.016935 6.018312,-6.016935 0.873714,0.842001 0.873714,0.842001 -6.666667,6.68299 c -3.666667,3.675645 -6.77251,6.741837 -6.901875,6.81376 -0.183088,0.101792 -0.92173,-0.556335 -3.333333,-2.96999 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Click="delete_Click" BorderThickness="0" ToolTip="Save" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="120,30,30,30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="m 25.361366,172.31763 c -0.667827,-0.3033 -1.327696,-0.8848 -1.719792,-1.51554 l -0.6362,-1.02343 -0.07745,-11.77396 c -0.0426,-6.47568 -0.01056,-12.04185 0.07119,-12.36927 l 0.148637,-0.59532 h 11.631585 11.631586 l 0.148582,0.59532 c 0.08172,0.32742 0.113755,5.95312 0.07119,12.50156 l -0.0774,11.90625 -0.741265,0.96892 c -1.323557,1.73006 -1.815317,1.80993 -11.104193,1.80339 -7.483159,-0.005 -8.365127,-0.0523 -9.346466,-0.49792 z m 17.028036,-13.32075 -0.06944,-9.59114 h -7.540625 -7.540625 l -0.06945,9.59114 -0.06945,9.59115 h 7.679518 7.679518 z M 21.199765,143.2786 c -0.09832,-0.0983 -0.178766,-0.99236 -0.178766,-1.98675 v -1.80799 h 3.291199 3.2912 l 1.222809,-1.05833 1.222808,-1.05833 h 4.745646 4.745646 l 1.025018,0.92604 1.025017,0.92604 3.142932,0.004 c 1.728613,0.002 3.297637,0.10218 3.486719,0.22212 0.241392,0.15312 0.320196,0.76265 0.264583,2.04647 l -0.0792,1.8284 -13.513421,0.0685 c -7.432381,0.0377 -13.593865,-0.0119 -13.692187,-0.11025 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+            <Grid x:Name="infogrid" Visibility="Hidden">
+                <Button Click="info_back_Click" ToolTip="Back" BorderThickness="0" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock x:Name="infoblock" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" PreviewMouseDown="infoblock_PreviewMouseDown" Cursor="Hand" Margin="30,120,30,30" TextWrapping="Wrap" Text="" FontSize="15" />
+                <Image x:Name="logo_img" Cursor="Hand" PreviewMouseDown="infoblock_PreviewMouseDown" Height="150" Margin="30" VerticalAlignment="Bottom" Stretch="Uniform" Source="/Logo.png" />
+            </Grid>
+            <Grid x:Name="exportgrid" Visibility="Hidden">
+                <Button Click="export_back_Click" ToolTip="Back" BorderThickness="0" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock x:Name="exportSeed" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="130,30,30,30" Height="60" VerticalAlignment="Top" TextWrapping="Wrap" FontSize="15" />
+                <Image x:Name="exportqrcode" Stretch="Uniform" Margin="30,130,30,30" />
+            </Grid>
+            <Grid x:Name="safetyquerygrid" Visibility="Hidden">
+                <Button Click="sq_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <TextBlock Margin="30,130,30,30" VerticalAlignment="Top" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" FontSize="15" Text="After deleting, you cannot restore your security key! Do you really want to delete this security key (type 'yes')?" TextWrapping="Wrap" />
+                <TextBox x:Name="delete_tb" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" TextChanged="delete_TextChanged" Margin="30,220,30,30" Height="30" VerticalAlignment="Top" FontSize="15">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="Padding" Value="4,1,4,1" />
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+            </Grid>
+            <Grid x:Name="fromwebcamgrid" Visibility="Hidden">
+                <Button Click="from_webcam_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ComboBox x:Name="cameraSelector" SelectionChanged="camera_SelectionChanged" Margin="130,45,30,30" VerticalAlignment="Top" Height="30" FontSize="15" />
+                <Border Margin="30,130,30,30" CornerRadius="8" BorderThickness="0">
+                    <Border.Background>
+                        <ImageBrush x:Name="webcam_view" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+            </Grid>
+            <Grid x:Name="settingsgrid" Visibility="Hidden">
+                <Button Click="settings_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <ScrollViewer Margin="30,130,0,30" Padding="0,0,30,0">
+                    <StackPanel>
+                        <StackPanel>
+                            <Label Content="Lightmode/Darkmode:" FontSize="15" Margin="0,0,0,10" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                            <RadioButton x:Name="rb_lightmode" Checked="rb_lightmode_Checked" FontSize="15" Content="Lightmode" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" />
+                            <RadioButton x:Name="rb_darkmode" Checked="rb_darkmode_Checked" FontSize="15" Content="Darkmode" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" />
+                            <RadioButton x:Name="rb_systemmode" Checked="rb_systemmode_Checked" FontSize="15" Content="Systemsettings" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,20" />
+                        </StackPanel>
+                        <CheckBox x:Name="cb_loadlogos" Checked="cb_loadlogos_Checked" Unchecked="cb_loadlogos_Unchecked" FontSize="15" Content="Load service logos from 'uplead.com'" Margin="0,0,0,20" ToolTip="Works only if the specified url does not contain subdomains!" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                        <CheckBox x:Name="cb_portable" Checked="cb_portable_Checked" Unchecked="cb_portable_Unchecked" FontSize="15" Content="Use as portable software" Margin="0,0,0,20" ToolTip="Works only if the specified url does not contain subdomains!" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                        <DockPanel Margin="0,0,0,20">
+                            <Label Content="Spacing for digit blocks:" FontSize="15" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                            <TextBox x:Name="tb_spacing" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" TextChanged="tb_spacing_TextChanged" Width="40" PreviewTextInput="NumericOnly" FontSize="15" Margin="10,0,10,0" HorizontalAlignment="Left">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                        <Setter Property="Padding" Value="4,1,4,1" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </DockPanel>
+                        <StackPanel>
+                            <Label Content="Encryption:" FontSize="15" Margin="0,0,0,10" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                            <RadioButton x:Name="rb_enc_none" Checked="rb_enc_none_Checked" FontSize="15" Content="None (bad)" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" />
+                            <RadioButton x:Name="rb_enc_machine" Checked="rb_enc_machine_Checked" FontSize="15" Content="Machine specific (medium)" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" />
+                            <RadioButton x:Name="rb_enc_user" Checked="rb_enc_user_Checked" FontSize="15" Content="User specific (better)" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,10" />
+                            <RadioButton x:Name="rb_enc_masterpassword" Checked="rb_enc_masterpassword_Checked" FontSize="15" Content="Use password (strong)" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,20" />
+                        </StackPanel>
+                        <CheckBox x:Name="cb_advSettings" Checked="cb_advSettings_Checked" Unchecked="cb_advSettings_Unchecked" FontSize="15" Content="Enable advanced settings (key editor)" Margin="0,0,0,20" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" />
+                        <Button Click="clear_cache_Click" BorderThickness="0" Background="#FF448AFF" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,0,30">
+                            <Label Foreground="White" FontSize="13" Content="Clear Cache" />
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="8"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            <Grid x:Name="masterpasswordgrid" Visibility="Hidden">
+                <Button Click="ms_back_Click" BorderThickness="0" ToolTip="Back" Background="#FF448AFF" Width="60" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30">
+                    <Path Fill="White" StrokeThickness="0" Stretch="Uniform" Width="30" Height="30" Data="M 57.88347,43.091527 C 55.47732,40.653038 53.258474,38.397763 52.9527,38.079802 l -0.555952,-0.578108 4.96262,-5.005947 c 2.729441,-2.75327 5.009239,-4.989989 5.066218,-4.970487 0.05698,0.0195 0.485106,0.413017 0.951394,0.874476 l 0.847797,0.839017 -3.466972,3.4983 -3.466974,3.4983 7.552959,0.03651 7.552958,0.03651 v 1.199276 1.199277 l -7.552958,0.03651 -7.552959,0.03651 3.465337,3.49665 3.465338,3.496649 -0.786054,0.875941 c -0.432329,0.481767 -0.874053,0.87594 -0.981609,0.87594 -0.107555,0 -2.164223,-1.995128 -4.570373,-4.433616 z" />
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="50"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <StackPanel Margin="30,130,30,30">
+                    <TextBlock FontSize="15" Margin="0,0,0,20" TextWrapping="Wrap" Text="Attention! If you lose this password, your access codes cannot be recovered!" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}"/>
+                    <Label Margin="0,0,0,10" Content="Password:" FontSize="15" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}"/>
+                    <TextBox x:Name="password1" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,20" Height="30" FontSize="15">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                                <Setter Property="Padding" Value="4,1,4,1" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Label Margin="0,0,0,10" Content="Repeat password:" FontSize="15" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}"/>
+                    <TextBox x:Name="password2" BorderBrush="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Background="{Binding Source={x:Static local:Settings.Background}, Mode=OneWay}" Foreground="{Binding Source={x:Static local:Settings.Foreground}, Mode=OneWay}" Margin="0,0,0,20" Height="30" FontSize="15">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                                <Setter Property="Padding" Value="4,1,4,1" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Button Click="use_password_Click" BorderThickness="0" Background="#FF448AFF" Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0,0,30">
+                        <Label Foreground="White" FontSize="13" Content="Use this password" />
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
