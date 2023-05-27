@@ -50,6 +50,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,10 +78,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ExtendedAssemblyInfo.cs" />
+    <Compile Include="NTPClient.cs" />
     <Compile Include="Protection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Storage.cs" />
     <Compile Include="SystemTheme.cs" />
+    <Compile Include="SystemTime.cs" />
     <Compile Include="TOTP.cs" />
     <Page Include="KeyView.xaml">
       <SubType>Designer</SubType>
@@ -161,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\AForge.Video.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

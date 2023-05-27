@@ -16,11 +16,6 @@ C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\Authent
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\Authenticator.pdb
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\KeyView.g.cs
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\KeyView.baml
-C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\bin\Debug\zxing.xml
-C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\bin\Debug\zxing.presentation.xml
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CopyComplete
-C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\bin\Debug\AForge.xml
-C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\bin\Debug\AForge.Video.xml
-C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\bin\Debug\AForge.Video.DirectShow.xml
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\ScrollbarStyle.baml
 C:\Benutzerdaten\Finn\Programme\C#\Authenticator\Authenticator\obj\Debug\App.baml

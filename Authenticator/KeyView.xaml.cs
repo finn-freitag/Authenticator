@@ -67,13 +67,13 @@ namespace Authenticator
             CompanyURL.ToolTip = url;
             //CompanyLogo.ToolTip = url;
             img_border.ToolTip = url;
-            UpdateToken();
+            UpdateToken(DateTime.Now);
             CompanyLogo.ImageSource = ConvertImagesource(GetIcon(url));
         }
 
-        public void UpdateToken()
+        public void UpdateToken(DateTime time)
         {
-            string token = TOTP.GenerateTOTPToken(Seed, digits, interval, (HashMode)hashmode);
+            string token = TOTP.GenerateTOTPToken(time, Seed, digits, interval, (HashMode)hashmode);
             string final = "";
             int spacing = Settings.CodeSpacing;
             for(int i = 0; i < token.Length; i++)

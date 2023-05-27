@@ -7,9 +7,9 @@ namespace EasyCodeClass
 {
     public class TOTP
     {
-        public static string GenerateTOTPToken(string secretKey, int digits = 6, int interval = 30, HashMode algorithm = HashMode.SHA1)
+        public static string GenerateTOTPToken(DateTime time, string secretKey, int digits = 6, int interval = 30, HashMode algorithm = HashMode.SHA1)
         {
-            double currentTime = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            double currentTime = (int)(time.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
             double timeInterval = currentTime / interval;
             byte[] timeBytes = BitConverter.GetBytes((ulong)timeInterval);
             if (BitConverter.IsLittleEndian)

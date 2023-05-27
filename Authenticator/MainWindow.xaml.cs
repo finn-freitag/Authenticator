@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,8 @@ namespace Authenticator
 
         System.Timers.Timer timer;
 
+        System.Timers.Timer timesync;
+
         System.Timers.Timer t2;
 
         System.Timers.Timer t3;
@@ -47,6 +50,11 @@ namespace Authenticator
         VideoCaptureDevice captureDevice = null;
 
         bool settingsLoading = false;
+
+        TimeSpan timeDifference = TimeSpan.Zero;
+
+        Brush timesyncpathBrush = Brushes.DarkGray;
+        string timesyncpathHint = "Verified time used!";
 
         public MainWindow()
         {
@@ -67,9 +75,15 @@ namespace Authenticator
             masterpasswordgrid.Visibility = Visibility.Hidden;
             
             timer = new System.Timers.Timer();
-            timer.Interval = 3;
+            timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
+
+            timesync = new System.Timers.Timer();
+            timesync.Interval = 10000;
+            timesync.Elapsed += Timesync_Elapsed;
+            timesync.Start();
+            Timesync_Elapsed(this, null);
 
             t2 = new System.Timers.Timer();
             t2.Interval = 200;
@@ -84,6 +98,33 @@ namespace Authenticator
             if(Settings.Encryption != Encryption.Masterpassword) ReloadKeys(); else
             {
                 masterpassword_area.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Timesync_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                DateTime realTime = NTPClient.GetTime();
+                TimeSpan difference = realTime - DateTime.Now;
+                if (Math.Abs(difference.TotalSeconds) < 4)
+                {
+                    timesyncpathBrush = Brushes.DarkGray;
+                    timesyncpathHint = "Verified time used!";
+                    timeDifference = TimeSpan.Zero;
+                }
+                else
+                {
+                    timesyncpathBrush = Brushes.Red;
+                    timesyncpathHint = "Your local time deviates from real time! You can't generate tokens offline!";
+                    timeDifference = difference;
+                }
+            }
+            catch
+            {
+                timesyncpathBrush = Brushes.Yellow;
+                timesyncpathHint = "You're offline. Your local time can't be verified!";
+                timeDifference = TimeSpan.Zero;
             }
         }
 
@@ -120,9 +161,13 @@ namespace Authenticator
         {
             try
             {
+                DateTime time = DateTime.Now + timeDifference;
+
                 Dispatcher.Invoke(() =>
                 {
-                    UpdateAllTokens();
+                    UpdateAllTokens(time);
+                    timesyncpath.Fill = timesyncpathBrush;
+                    timesyncpath.ToolTip = timesyncpathHint;
                 });
             }
             catch { }
@@ -246,11 +291,11 @@ namespace Authenticator
             }
         }
 
-        public void UpdateAllTokens()
+        public void UpdateAllTokens(DateTime time)
         {
             foreach(UIElement element in codelist.Children)
             {
-                ((KeyView)element).UpdateToken();
+                ((KeyView)element).UpdateToken(time);
             }
         }
 
@@ -717,6 +762,19 @@ namespace Authenticator
                 Process.Start(Application.ResourceAssembly.Location);
                 Storage.Portable = false;
                 Close_Click(this, null);
+            }
+        }
+
+        private void timesyncbtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Settings.Time = NTPClient.GetTime(NTPClient.DEFAULT_SERVER, 6000);
+                Timer_Elapsed(this, null);
+            }
+            catch
+            {
+                MessageBox.Show("Server not accessable. Please check you internet connection!");
             }
         }
 

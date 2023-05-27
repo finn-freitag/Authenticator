@@ -42,6 +42,18 @@ namespace Authenticator
             }
         }
 
+        public static DateTime Time
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+            set
+            {
+                SystemTime.Set(value);
+            }
+        }
+
         public static LightMode LightMode
         {
             get
