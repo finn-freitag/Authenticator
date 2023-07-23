@@ -67,7 +67,13 @@ namespace Authenticator
             CompanyURL.ToolTip = url;
             //CompanyLogo.ToolTip = url;
             img_border.ToolTip = url;
-            UpdateToken(DateTime.Now);
+            DateTime time = DateTime.Now;
+            try
+            {
+                time = NTPClient.GetTime();
+            }
+            catch { }
+            UpdateToken(time);
             CompanyLogo.ImageSource = ConvertImagesource(GetIcon(url));
         }
 
