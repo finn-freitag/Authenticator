@@ -1,4 +1,4 @@
-<div style="width:100%;display:flex;justify-content: center;align-items: center;flex-direction: column;"><img src="./Authenticator/Workspace/Logo.png" alt="Image of GUI" height="250px" /></div>
+<div align="center"><img src="./Authenticator/Workspace/Logo.png" alt="Image of GUI" height="250px" /></div>
 
 # 🔐 Authenticator: Your Reliable 2FA Companion
 
